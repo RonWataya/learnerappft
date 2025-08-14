@@ -1,0 +1,77 @@
+/* Custom CSS to style the page and forms */
+body {
+    background-color: #f0f2f5; /* A light, clean background color */
+    font-family: 'Inter', sans-serif;
+}
+/* Center the container vertically and horizontally */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+/* Style the card containing the forms */
+.card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Constrain width for a better mobile experience */
+    width: 100%;
+}
+/* Add a little padding to the form elements */
+.form-control {
+    border-radius: 0.5rem;
+}
+/* Style the buttons */
+.btn-primary, .btn-success {
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+/* Initially hide the registration form */
+#register-form {
+    display: none;
+}
+/* Style the toggle links */
+a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 600;
+}
+a:hover {
+    text-decoration: underline;
+}
+  .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(-100px); /* Start off-screen */
+        }
+        .message-box.show {
+            transform: translateY(0); /* Slide in */
+        }
+        .message-box.success {
+            background-color: #28a745;
+        }
+        .message-box.error {
+            background-color: #dc3545;
+        }
+        /* Style for the YouTube video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
