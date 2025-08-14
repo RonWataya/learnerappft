@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } else {
             console.error("No user found. Redirecting to login page.");
-            window.location.replace('login.html');
+            window.location.replace('index.html');
             return false;
         }
     };
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('user');
         showMessage('You have been logged out successfully.', false);
         setTimeout(() => {
-            window.location.replace('login.html');
+            window.location.replace('index.html');
         }, 1500);
     });
 
