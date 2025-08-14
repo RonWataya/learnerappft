@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Define the base URL for your API
-    //const API_URL = 'http://localhost:3000';
     const API_URL = 'https://traininghealthandsafety.com:4000';
 
     // Get references to DOM elements
@@ -8,26 +7,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const registerForm = document.getElementById('register-form');
     const showRegisterLink = document.getElementById('show-register');
     const showLoginLink = document.getElementById('show-login');
+    const loginLoader = document.getElementById('login-loader');
+    const registerLoader = document.getElementById('register-loader');
 
     // Helper function to show a temporary message box
     const showMessage = (message, isError = false) => {
-        // Find the existing message box or create a new one
-        let alertDiv = document.querySelector('.custom-alert');
-        if (!alertDiv) {
-            alertDiv = document.createElement('div');
-            alertDiv.className = 'custom-alert fixed-top start-50 translate-middle-x mt-3 p-3 rounded-3 shadow-lg text-white text-center d-none';
-            document.body.appendChild(alertDiv);
-        }
+        // Create the message box element
+        let messageBox = document.createElement('div');
+        messageBox.className = `message-box ${isError ? 'error' : 'success'}`;
+        messageBox.textContent = message;
 
-        // Set the message and style
-        alertDiv.textContent = message;
-        alertDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
-        alertDiv.classList.add('d-block', `alert-${isError ? 'danger' : 'success'}`);
+        // Append to the body
+        document.body.appendChild(messageBox);
 
-        // Automatically hide the message after a few seconds
+        // Show the message box
         setTimeout(() => {
-            alertDiv.classList.remove('d-block');
-            alertDiv.classList.add('d-none');
+            messageBox.classList.add('show');
+        }, 10);
+
+        // Hide and remove the message box after 3 seconds
+        setTimeout(() => {
+            messageBox.classList.remove('show');
+            // Remove the element after the transition ends
+            messageBox.addEventListener('transitionend', () => {
+                messageBox.remove();
+            }, { once: true });
         }, 3000);
     };
 
@@ -83,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (response.ok) {
                     showMessage(result.message);
-                    toggleForms(true); // Switch to login form after successful registration
+                    toggleForms(true);
                 } else {
                     showMessage(result.message || 'Registration failed.', true);
                 }
@@ -99,6 +103,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Show loader and disable button
+            loginLoader.style.display = 'block';
+
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
@@ -112,18 +119,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    // This is the crucial part that was missing
                     localStorage.setItem('userId', result.user.id);
                     localStorage.setItem('user', JSON.stringify(result.user));
                     showMessage(result.message || 'Login successful!');
-                    // Redirect to the home page after a successful login
                     window.location.href = 'home.html';
+
+                    // Hide loader and re-enable button
+                    loginLoader.style.display = 'none';
                 } else {
                     showMessage(result.message || 'Login failed.', true);
+                    // Hide loader and re-enable button
+                     loginLoader.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Login Error:', error);
                 showMessage('An unexpected error occurred during login.', true);
+                // Hide loader and re-enable button
+                loginLoader.style.display = 'none';
             }
         });
     }
